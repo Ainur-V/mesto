@@ -18,10 +18,10 @@
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/profile/__user_info/profile__user_info.css);
 @import url(../blocks/profile/__two-columns/profile__two-columns.css);
-@import url(../blocks/profile/__user_name/profile__user_name.css);
-@import url(../blocks/profile/__edit_button/profile__edit_button.css);
-@import url(../blocks/profile/__user_info/profile__user_info.css);
-@import url(../blocks/profile/__add_button/profile__add_button.css);
+@import url(../blocks/profile/__user-name/profile__user-name.css);
+@import url(../blocks/profile/__edit-button/profile__edit-button.css);
+@import url(../blocks/profile/__user-info/profile__user-info.css);
+@import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/element/element.css);
 @import url(../blocks/element/__image/element__image.css);

@@ -1,4 +1,4 @@
-.profile__user_name {
+.profile__user-name {
     font-family: Inter;
     font-style: normal;
     font-weight: 500;
@@ -14,14 +14,14 @@
 }
 
 @media screen and (min-width: 582px) and (max-width: 879px) {
-    .profile__user_name {
+    .profile__user-name {
         font-size: 27px;
         line-height: 33px;
     }
 }
 
 @media screen and (min-width: 320px) and (max-width: 581px) {
-    .profile__user_name {
+    .profile__user-name {
         font-size: 27px;
         line-height: 33px;
         max-width: 189px;

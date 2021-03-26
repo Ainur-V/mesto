@@ -1,4 +1,4 @@
-.profile__user_info {
+.profile__user-info {
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
@@ -13,7 +13,7 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 879px) {
-    .user_info {
+    .profile__user_info {
         margin-top: 16px;
         text-align: center;
         font-size: 14px;
