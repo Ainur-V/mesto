@@ -1,0 +1,23 @@
+.profile__user_info {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: white;
+    margin-top: 16px;
+    margin-bottom: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (min-width: 320px) and (max-width: 879px) {
+    .user_info {
+        margin-top: 16px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+}
