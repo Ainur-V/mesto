@@ -1,5 +1,9 @@
 .popup__close-button {
     position: absolute;
+    background-image: url("../../../images/Close_icon.svg");
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
     top: -40px;
     right: -40px;
     transform: rotate(-45deg);
