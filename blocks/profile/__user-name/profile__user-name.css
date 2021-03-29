@@ -1,5 +1,5 @@
 .profile__user-name {
-    font-family: Inter;
+    font-family: 'Inter', 'Helvetica', Arial, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 42px;
@@ -13,7 +13,7 @@
     max-width: 294px;
 }
 
-@media screen and (min-width: 582px) and (max-width: 879px) {
+@media screen and (min-width: 320px) and (max-width: 879px) {
     .profile__user-name {
         font-size: 27px;
         line-height: 33px;
@@ -22,8 +22,6 @@
 
 @media screen and (min-width: 320px) and (max-width: 581px) {
     .profile__user-name {
-        font-size: 27px;
-        line-height: 33px;
         max-width: 189px;
     }
 }
