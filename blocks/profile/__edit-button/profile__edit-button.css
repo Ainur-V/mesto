@@ -10,6 +10,7 @@
     cursor: pointer;
     transition: opacity 0.3s linear;
     box-sizing: border-box;
+    outline: none;
 }
 
 .profile__edit-button:hover {
