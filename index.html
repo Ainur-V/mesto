@@ -18,7 +18,7 @@
             <div class="popup__container-place">
                 <form id="edit-profile" name="popup-form" class="popup__container">
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input id="edit-profile-name" name="user-name" type="text" class="popup__input" value="">
+                    <input required id="edit-profile-name" name="user-name" type="text" class="popup__input" value="">
                     <input id="edit-profile-info" name="user-info" type="text" class="popup__input" value="">
                     <button id="edit-profile-submit" type="submit" class="popup__submit">Сохранить</button>
                     <button id="edit-profile-close" type="button" class="popup__close-button"></button>
@@ -31,11 +31,19 @@
                 <form id="add-element" name="popup-form" class="popup__container">
                     <h2 class="popup__title">Новое место</h2>
                     <input id="add-element-name" name="element-name" type="text" class="popup__input" value="" placeholder="Название">
-                    <input id="add-element-link" name="element-link" type="text" class="popup__input" value="" placeholder="Cсылка на картинку">
+                    <input id="add-element-link" name="element-link" type="url" class="popup__input" value="" placeholder="Cсылка на картинку">
                     <button id="add-element-submit" type="submit" class="popup__submit">Создать</button>
                     <button id="add-element-close" type="button" class="popup__close-button"></button>
                 </form>
             </div>
+        </div>
+
+        <div id="popup-image-full" class="popup-element">
+            <figure class="popup-element__place">
+                <img class="popup-element__image">
+                <figcaption class="popup-element__title"></figcaption>
+                <button type="button" class="popup-element__close"></button>
+            </figure>
         </div>
 
         <section class="profile">
@@ -69,17 +77,11 @@
                 <button type="button" class="element__like"></button>
                 <button type="button" class="element__delete"></button>
                 </div>
-                <div id="popup-image-full" class="popup-element">
-                    <figure class="popup-element__place">
-                        <img class="popup-element__image" alt="картинка карточки">
-                        <figcaption class="popup-element__title"></figcaption>
-                        <button type="button" class="popup-element__close"></button>
-                    </figure>
-                </div>
             </div>
         </template>
 
     </div> 
+    <script src="./scripts/initialCards.js"></script>
     <script src="./scripts/index.js"></script>
 </body>
 </html>
