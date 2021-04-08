@@ -29,7 +29,7 @@ function createElement(name, link) {
     const element = templateElement.querySelector('.element').cloneNode(true);
     element.querySelector('.element__name').textContent = name;
     element.querySelector('.element__image').src = link;
-    element.querySelector('.element__image').setAttribute('alt', `картинка ${name}`);
+    element.querySelector('.element__image').setAttribute('alt', `изображение карточки ${name}`);
 
     const likeButton = element.querySelector('.element__like');
     likeButton.addEventListener('click', () => {
