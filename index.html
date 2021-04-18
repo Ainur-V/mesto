@@ -15,11 +15,14 @@
         <main class="content">
 
         <div id="popup-edit-profile" class="popup">
+            <div class="popup__overlay"></div>
             <div class="popup__container-place">
-                <form id="edit-profile" name="popup-form" class="popup__container">
+                <form id="edit-profile" name="popup-form" class="popup__container" novalidate>
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <input required id="edit-profile-name" name="user-name" type="text" class="popup__input" value="">
-                    <input id="edit-profile-info" name="user-info" type="text" class="popup__input" value="">
+                    <input required id="edit-profile-name" name="user-name" type="text" class="popup__input" value="" minlength="2" maxlength="40">
+                    <span id="edit-profile-name-error" class="popup__error"></span>
+                    <input required id="edit-profile-info" name="user-info" type="text" class="popup__input" value="" minlength="2" maxlength="200">
+                    <span id="edit-profile-info-error" class="popup__error"></span>
                     <button id="edit-profile-submit" type="submit" class="popup__submit">Сохранить</button>
                     <button id="edit-profile-close" type="button" class="popup__close-button"></button>
                 </form>
@@ -28,11 +31,13 @@
 
         <div id="popup-add-element" class="popup">
             <div class="popup__container-place">
-                <form id="add-element" name="popup-form" class="popup__container">
+                <form id="add-element" name="popup-form" class="popup__container" novalidate>
                     <h2 class="popup__title">Новое место</h2>
-                    <input required id="add-element-name" name="element-name" type="text" class="popup__input" value="" placeholder="Название">
+                    <input required id="add-element-name" name="element-name" type="text" class="popup__input" value="" placeholder="Название" minlength="2" maxlength="30">
+                    <span id="add-element-name-error" class="popup__error"></span>
                     <input required id="add-element-link" name="element-link" type="url" class="popup__input" value="" placeholder="Cсылка на картинку">
-                    <button id="add-element-submit" type="submit" class="popup__submit">Создать</button>
+                    <span id="add-element-link-error" class="popup__error"></span>
+                    <button id="add-element-submit" type="submit" class="popup__submit popup__submit_disable" disabled>Создать</button>
                     <button id="add-element-close" type="button" class="popup__close-button"></button>
                 </form>
             </div>
@@ -83,5 +88,6 @@
     </div> 
     <script src="./scripts/initialCards.js"></script>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 </html>
