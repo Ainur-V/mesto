@@ -6,15 +6,15 @@ const addButton = document.querySelector('.profile__add-button');
 const popupProfile = document.querySelector('#popup-edit-profile');
 const popupAddElement = document.querySelector('#popup-add-element');
 
-const formProfile = document.querySelector('#edit-profile'); // popupSubmitProfile
-const formProfileInputName = formProfile.querySelector('#edit-profile-name'); // popupUserName
-const formProfileInputInfo = formProfile.querySelector('#edit-profile-info'); // popupUserInfo
-const formProfileCloseButton = formProfile.querySelector('#edit-profile-close'); // popupProfileClose
+const formProfile = document.querySelector('#edit-profile');
+const formProfileInputName = formProfile.querySelector('#edit-profile-name');
+const formProfileInputInfo = formProfile.querySelector('#edit-profile-info');
+const formProfileCloseButton = formProfile.querySelector('#edit-profile-close');
 
-const formElement = document.querySelector('#add-element'); // popupSubmitElement
-const formElementInputName = formElement.querySelector('#add-element-name'); // popupElementName
-const formElementInputLink = formElement.querySelector('#add-element-link'); // popupElementLink
-const formElementCloseButton = formElement.querySelector('#add-element-close'); // popupAddClose
+const formElement = document.querySelector('#add-element');
+const formElementInputName = formElement.querySelector('#add-element-name');
+const formElementInputLink = formElement.querySelector('#add-element-link');
+const formElementCloseButton = formElement.querySelector('#add-element-close');
 
 const popupElement = document.querySelector('#popup-image-full');
 const popupElementImage = document.querySelector('.popup-element__image');
@@ -64,11 +64,19 @@ initialCards.forEach(function (item) {
 //Функция открытия попапа
 function openPopup (popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('click', toggleCloseByOverley);
+    document.addEventListener('keydown', toggleCloseByEscape);
+    document.addEventListener('mouseover', toggleOverleyMouseover);
+    document.addEventListener('mouseout', toggleOverleyMouseout);
 };
 
 //Функция закрытия попапа
 function closePopup (popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('click', toggleCloseByOverley);
+    document.removeEventListener('keydown', toggleCloseByEscape);
+    document.removeEventListener('mouseover', toggleOverleyMouseover);
+    document.removeEventListener('mouseout', toggleOverleyMouseout);
 }
 
 //Реакция на клик по кнопке "Редактировать профиль"
@@ -81,10 +89,7 @@ editButton.addEventListener('click', () => {
 //Кнопка закрытия попапа "Редактировать профиль"
 formProfileCloseButton.addEventListener('click', () => {
   closePopup(popupProfile);
-  const popupError = popupProfile.querySelectorAll('.popup__error');
-  popupError.forEach(function(item) {
-    item.textContent = "";
-  })
+  clearValidation(formProfile, config);
 });
 
 //Отправка данных попапа "Редактировать профиль"
@@ -103,12 +108,7 @@ addButton.addEventListener('click', () => {
 //Кнопка закрытия попапа "Новое место"
 formElementCloseButton.addEventListener('click', () => {
   closePopup(popupAddElement);
-  formElementInputName.value ='';
-  formElementInputLink.value ='';
-  const popupError = popupAddElement.querySelectorAll('.popup__error');
-  popupError.forEach(function(item) {
-    item.textContent = "";
-  })
+  clearValidation(formElement, config);
 });
 
 //Отправка данных попапа "Новое место"
@@ -116,8 +116,8 @@ formElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   addElement(createElement(formElementInputName.value, formElementInputLink.value));
   closePopup(popupAddElement);
-  formElementInputName.value ='';
-  formElementInputLink.value ='';
+  formElement.reset();
+  disableFormButton(formElement, config);
 });
 
 //Кнопка закрытия попапа "Full image"
@@ -125,33 +125,33 @@ popupElementClose.addEventListener('click', () => {
   closePopup(popupElement);
 });
 
-//закрытие любого открытого попапа по нажатию на оверлей
-document.addEventListener('click', (evt) => {
+//Функция закрытия попапа по клику на оверлей
+function toggleCloseByOverley (evt) {
   if (evt.target.classList.contains('popup_opened')) {
-    const popupNowOpen = document.querySelector('.popup_opened')
-    closePopup(popupNowOpen);
+  closePopup(document.querySelector('.popup_opened'));
   }
-})
+}
 
-//закрытие любого открытого попапа по нажатию Escape
-document.addEventListener('keydown', (evt) => {
+//Функция закрытия попапа по нажатию Escape
+function toggleCloseByEscape (evt) {
   if (evt.key === "Escape") {
     closePopup(document.querySelector('.popup_opened'))
   }
-})
+}
 
-//изменение курсора при наведении на оверлей
-document.addEventListener('mouseover', (evt) => {
+//Функция изменения курсора при наведении на оверлей
+function toggleOverleyMouseover (evt) {
   if (evt.target.classList.contains('popup_opened')) {
     const popupNowOpen = document.querySelector('.popup_opened')
     popupNowOpen.classList.add('popup_overley-hover');
-  }
-})
+  } 
+}
 
-//изменение курсора при уходе с оверлей
-document.addEventListener('mouseout', (evt) => {
+
+//Функция изменения курсора при уходе с оверлей
+function toggleOverleyMouseout (evt) {
   if (evt.target.classList.contains('popup_opened')) {
     const popupNowOpen = document.querySelector('.popup_opened')
     popupNowOpen.classList.remove('popup_overley-hover');
   }
-})
+}
