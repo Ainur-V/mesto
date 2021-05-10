@@ -1,82 +1,75 @@
-const config = {
-    formSelector: '.popup__container',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_disable',
-    errorClass: 'popup__error_visible',
-    popupErrorClass: '.popup__error'
-  };
-
-function enabledValidation (config) {
-    const forms = Array.from(document.querySelectorAll(config.formSelector)); 
-    forms.forEach(function (form) {
-        const inputList = Array.from(form.querySelectorAll(config.inputSelector));
-        inputList.forEach(function (input) {
-            input.addEventListener('input', function () {
-                checkInputValid(input, config);
-                setButtonState (inputList, form, config);
-            });
-        })
-    })
-}
-
-//Функция показа сообщения об ошибке
-function showError (input, errorMessage, config) {
-    const inputError = document.querySelector(`#${input.id}-error`);
-    input.classList.add(config.errorClass);
-    inputError.classList.add(config.errorClass);
-    inputError.textContent = errorMessage;
-}
-
-//Функция скрытия сообщения об ошибке
-function hideError (input, config) {
-    const inputError = document.querySelector(`#${input.id}-error`);
-    input.classList.remove(config.errorClass);
-    inputError.classList.remove(config.errorClass);
-    inputError.textContent = "";
-}
-
-//Функция переключения кнопки отправки данных попапа в неактивное состояние
-function disableFormButton (form, config) {
-    const formButton = form.querySelector(config.submitButtonSelector);
-    formButton.classList.add(config.inactiveButtonClass);
-    formButton.setAttribute("disabled", "disabled");
-}
-
-//Функция переключения кнопки отправки данных попапа в активное состояние
-function enableFormButton (form, config) {
-    const formButton = form.querySelector(config.submitButtonSelector);
-    formButton.classList.remove(config.inactiveButtonClass);
-    formButton.removeAttribute("disabled");
-}
-
-//Функция проверки корректности заполнения инпута и показа сообщения
-function checkInputValid (input, config) {
-    if (!input.validity.valid) {
-        showError(input, input.validationMessage, config);
-    } else { 
-        hideError(input, config);
+//Экземпляр класса проверки ввода формы
+export default class FormValidator {
+    constructor (config, form) {
+        this._formSelector = config.formSelector;
+        this._inputSelector = config.inputSelector;
+        this._submitButtonSelector = config.submitButtonSelector;
+        this._inactiveButtonClass = config.inactiveButtonClass;
+        this._errorClass = config.errorClass;
+        this._popupErrorClass = config.popupErrorClass;
+        this._form = form;
     }
-}
 
-//Функция переключения состояния кнопки отправки данных в зависимости от корректности инпутов
-function setButtonState (inputList, form, config) {
-    const inputValid = inputList.every((item) => {
-        return item.validity.valid;
-    });
-    const inputfull = inputList.every(function (item) {
-        return item.value.length > 0;
+    //Публичный метод включения валидации
+    enableValidation() {
+        const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+        inputList.forEach((input) => {
+            input.addEventListener('input', () => {
+                this._checkInputValid(input);
+                this._setButtonState(inputList);
+            })
+        })
+    }
+
+    //Метод проверки корректности заполнения инпута и показа сообщения
+    _checkInputValid(input) {
+        if (!input.validity.valid) {
+            this._showError(input, input.validationMessage);
+        } else { 
+            this._hideError(input);
+        }
+    }
+
+    //Метод показа сообщения об ошибке
+    _showError (input, errorMessage) {
+        const inputError = this._form.querySelector(`#${input.id}-error`);
+        input.classList.add(this._errorClass);
+        inputError.classList.add(this._errorClass);
+        inputError.textContent = errorMessage;
+    }
+
+    //Метод скрытия сообщения об ошибке
+    _hideError (input) {
+        const inputError = this._form.querySelector(`#${input.id}-error`);
+        input.classList.remove(this._errorClass);
+        inputError.classList.remove(this._errorClass);
+        inputError.textContent = "";
+    }
+
+    //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
+    _setButtonState (inputList) {
+        const inputValid = inputList.every((item) => {
+            return item.validity.valid;
         });
-    if (!inputValid || !inputfull) {
-        disableFormButton(form, config);
-    } else enableFormButton(form, config);
-}
+        const inputfull = inputList.every(function (item) {
+            return item.value.length > 0;
+            });
+        if (!inputValid || !inputfull) {
+            this.disableFormButton();
+        } else this._enableFormButton();
+    }
 
-enabledValidation(config);
+    //Метод переключения кнопки отправки данных попапа в неактивное состояние
+    disableFormButton () {
+        const formButton = this._form.querySelector(this._submitButtonSelector);
+        formButton.classList.add(this._inactiveButtonClass);
+        formButton.setAttribute("disabled", "disabled");
+    }
 
-function clearValidation (form, config) {
-    const popupError = form.querySelectorAll(config.popupErrorClass);
-    popupError.forEach(function(item) {
-        item.textContent = "";
-});
+    //Метод переключения кнопки отправки данных попапа в активное состояние
+    _enableFormButton () {
+        const formButton = this._form.querySelector(this._submitButtonSelector);
+        formButton.classList.remove(this._inactiveButtonClass);
+        formButton.removeAttribute("disabled");
+    }
 }

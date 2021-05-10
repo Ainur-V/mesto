@@ -1,3 +1,8 @@
+import Card from './card.js';
+import {initialCards} from './initialCards.js';
+import FormValidator from './validate.js';
+import {config} from './config.js';
+
 const editButton = document.querySelector('.profile__edit-button');
 const closeButton = document.querySelectorAll('.popup__close-button');
 const profileUserName = document.querySelector('.profile__user-name');
@@ -16,40 +21,18 @@ const formElementInputName = formElement.querySelector('#add-element-name');
 const formElementInputLink = formElement.querySelector('#add-element-link');
 const formElementCloseButton = formElement.querySelector('#add-element-close');
 
-const popupElement = document.querySelector('#popup-image-full');
-const popupElementImage = document.querySelector('.popup-element__image');
-const popupElementTitle = document.querySelector('.popup-element__title');
+export const popupElement = document.querySelector('#popup-image-full');
+export const popupElementImage = document.querySelector('.popup-element__image');
+export const popupElementTitle = document.querySelector('.popup-element__title');
 const popupElementClose = document.querySelector('.popup-element__close');
 
-const templateElement = document.querySelector('#template-element').content;
 const elements = document.querySelector('.elements');
 
  //Функция наполнения элемента данными с последущим возвратом элемента
-function createElement(name, link) {
-    const element = templateElement.querySelector('.element').cloneNode(true);
-    element.querySelector('.element__name').textContent = name;
-    element.querySelector('.element__image').src = link;
-    element.querySelector('.element__image').setAttribute('alt', `изображение карточки ${name}`);
-
-    const likeButton = element.querySelector('.element__like');
-    likeButton.addEventListener('click', () => {
-      likeButton.classList.toggle('element__like_active');
-    });
-
-    const deleteButton = element.querySelector('.element__delete');
-    deleteButton.addEventListener('click', () => {
-      element.remove();
-    });
-
-    const imageButton = element.querySelector('.element__image');
-    imageButton.addEventListener('click', function () {
-    openPopup(popupElement);
-    popupElementImage.src = link;
-    popupElementTitle.textContent = name;
-    });
-
-    return element;
-};
+ function createElement(item) {
+  const card = new Card(item.name, item.link, '#template-element');
+  return card.getCard();
+ }
 
 //Функция добавления готового элемента на страницу
 function addElement(element) {
@@ -58,11 +41,11 @@ function addElement(element) {
 
 //Перебор и добавление элементов массива на страницу
 initialCards.forEach(function (item) {
-    addElement(createElement(item.name, item.link));
+    addElement(createElement(item));
 });
 
 //Функция открытия попапа
-function openPopup (popup) {
+export function openPopup (popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('click', toggleCloseByOverley);
     document.addEventListener('keydown', toggleCloseByEscape);
@@ -114,10 +97,11 @@ formElementCloseButton.addEventListener('click', () => {
 //Отправка данных попапа "Новое место"
 formElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  addElement(createElement(formElementInputName.value, formElementInputLink.value));
+  const card = new Card (formElementInputName.value, formElementInputLink.value, '#template-element');
+  addElement(card.getCard());
   closePopup(popupAddElement);
   formElement.reset();
-  disableFormButton(formElement, config);
+  formElementValidator.disableFormButton();
 });
 
 //Кнопка закрытия попапа "Full image"
@@ -147,11 +131,23 @@ function toggleOverleyMouseover (evt) {
   } 
 }
 
-
 //Функция изменения курсора при уходе с оверлей
 function toggleOverleyMouseout (evt) {
   if (evt.target.classList.contains('popup_opened')) {
     const popupNowOpen = document.querySelector('.popup_opened')
     popupNowOpen.classList.remove('popup_overley-hover');
   }
+}
+
+const formProfileValidator = new FormValidator(config, formProfile);
+formProfileValidator.enableValidation();
+
+const formElementValidator = new FormValidator(config, formElement);
+formElementValidator.enableValidation();
+
+function clearValidation (form, config) {
+  const popupError = form.querySelectorAll(config.popupErrorClass);
+  popupError.forEach(function(item) {
+      item.textContent = "";
+});
 }
