@@ -8,15 +8,17 @@ export default class FormValidator {
         this._errorClass = config.errorClass;
         this._popupErrorClass = config.popupErrorClass;
         this._form = form;
+        this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
+        this._formButton = this._form.querySelector(this._submitButtonSelector);
+        this._popupErrorList = this._form.querySelectorAll(this._popupErrorClass);
     }
 
     //Публичный метод включения валидации
     enableValidation() {
-        const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-        inputList.forEach((input) => {
+        this._inputList.forEach((input) => {
             input.addEventListener('input', () => {
                 this._checkInputValid(input);
-                this._setButtonState(inputList);
+                this._setButtonState();
             })
         })
     }
@@ -47,11 +49,11 @@ export default class FormValidator {
     }
 
     //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
-    _setButtonState (inputList) {
-        const inputValid = inputList.every((item) => {
+    _setButtonState () {
+        const inputValid = this._inputList.every((item) => {
             return item.validity.valid;
         });
-        const inputfull = inputList.every(function (item) {
+        const inputfull = this._inputList.every(function (item) {
             return item.value.length > 0;
             });
         if (!inputValid || !inputfull) {
@@ -61,15 +63,25 @@ export default class FormValidator {
 
     //Метод переключения кнопки отправки данных попапа в неактивное состояние
     disableFormButton () {
-        const formButton = this._form.querySelector(this._submitButtonSelector);
-        formButton.classList.add(this._inactiveButtonClass);
-        formButton.setAttribute("disabled", "disabled");
+        this._formButton.classList.add(this._inactiveButtonClass);
+        this._formButton.setAttribute("disabled", "disabled");
     }
 
     //Метод переключения кнопки отправки данных попапа в активное состояние
     _enableFormButton () {
-        const formButton = this._form.querySelector(this._submitButtonSelector);
-        formButton.classList.remove(this._inactiveButtonClass);
-        formButton.removeAttribute("disabled");
+        this._formButton.classList.remove(this._inactiveButtonClass);
+        this._formButton.removeAttribute("disabled");
+    }
+
+    resetValidation() {
+        this._popupErrorList.forEach((inputElement) => {
+            this._hideError(inputElement)
+        });
+    
+        this._setButtonState(); 
+    }
+
+    _hideError(inputElement) {
+        inputElement.textContent = "";
     }
 }

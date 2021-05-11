@@ -1,20 +1,19 @@
-import {popupElement, popupElementImage, popupElementTitle, openPopup} from './index.js';
-
 export default class Card {
-    constructor(name, link, templateSelector) {
+    constructor(name, link, templateSelector, handleCardClick) {
       this._name = name,
       this._link = link,
       this._templateElement = document.querySelector(templateSelector).content;
+      this._handleCardClick = handleCardClick;
     }
   
     getCard () {
       this._element = this._templateElement.querySelector('.element').cloneNode(true);
+      this._cardImage = this._element.querySelector('.element__image');
       this._element.querySelector('.element__name').textContent = this._name;
-      this._element.querySelector('.element__image').src = this._link;
-      this._element.querySelector('.element__image').setAttribute('alt', `изображение карточки ${this._name}`);
+      this._cardImage.src = this._link;
+      this._cardImage.setAttribute('alt', `изображение карточки ${this._name}`);
       this._likeButton = this._element.querySelector('.element__like');
       this._deleteButton = this._element.querySelector('.element__delete');
-      this._imageButton = this._element.querySelector('.element__image');
       this._addEventListener();
       return this._element;
     }
@@ -26,10 +25,8 @@ export default class Card {
       this._deleteButton.addEventListener('click', () => {
         this._deleteCard();
       })
-      this._imageButton.addEventListener('click', () => {
-        openPopup(popupElement);
-        popupElementImage.src = this._link;
-        popupElementTitle.textContent = this._name;
+      this._cardImage.addEventListener('click', () => {
+        this._handleCardClick(this._name, this._link);
       })
     }
   
