@@ -42,14 +42,6 @@ export default class FormValidator {
         inputError.textContent = errorMessage;
     }
 
-    // Старый метод очистки ошибки, оставлю на всякий случай.
-    // _hideError (input) {
-    //     const inputError = this._form.querySelector(`#${input.id}-error`);
-    //     input.classList.remove(this._errorClass);
-    //     inputError.classList.remove(this._errorClass);
-    //     inputError.textContent = "";
-    // }
-
     //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
     _setButtonState () {
         const inputValid = this._inputList.every((item) => {
