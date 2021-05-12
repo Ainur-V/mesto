@@ -28,7 +28,9 @@ export default class FormValidator {
         if (!input.validity.valid) {
             this._showError(input, input.validationMessage);
         } else { 
-            this._hideError(input);
+            this._popupErrorList.forEach((inputElement) => {
+                this._hideError(inputElement)
+            });
         }
     }
 
@@ -40,13 +42,13 @@ export default class FormValidator {
         inputError.textContent = errorMessage;
     }
 
-    //Метод скрытия сообщения об ошибке
-    _hideError (input) {
-        const inputError = this._form.querySelector(`#${input.id}-error`);
-        input.classList.remove(this._errorClass);
-        inputError.classList.remove(this._errorClass);
-        inputError.textContent = "";
-    }
+    // Старый метод очистки ошибки, оставлю на всякий случай.
+    // _hideError (input) {
+    //     const inputError = this._form.querySelector(`#${input.id}-error`);
+    //     input.classList.remove(this._errorClass);
+    //     inputError.classList.remove(this._errorClass);
+    //     inputError.textContent = "";
+    // }
 
     //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
     _setButtonState () {
@@ -81,6 +83,7 @@ export default class FormValidator {
         this._setButtonState(); 
     }
 
+    //Метод скрытия сообщения об ошибке
     _hideError(inputElement) {
         inputElement.textContent = "";
     }
