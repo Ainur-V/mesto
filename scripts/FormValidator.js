@@ -28,9 +28,7 @@ export default class FormValidator {
         if (!input.validity.valid) {
             this._showError(input, input.validationMessage);
         } else { 
-            this._popupErrorList.forEach((inputElement) => {
-                this._hideError(inputElement)
-            });
+            this._hideError(input);
         }
     }
 
@@ -40,6 +38,13 @@ export default class FormValidator {
         input.classList.add(this._errorClass);
         inputError.classList.add(this._errorClass);
         inputError.textContent = errorMessage;
+    }
+
+    _hideError(input) {
+        const inputError = this._form.querySelector(`#${input.id}-error`);
+        input.classList.remove(this._errorClass);
+        inputError.classList.remove(this._errorClass);
+        inputError.textContent = "";
     }
 
     //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
@@ -69,14 +74,10 @@ export default class FormValidator {
 
     resetValidation() {
         this._popupErrorList.forEach((inputElement) => {
-            this._hideError(inputElement)
+            inputElement.textContent = "";
         });
     
         this._setButtonState(); 
     }
 
-    //Метод скрытия сообщения об ошибке
-    _hideError(inputElement) {
-        inputElement.textContent = "";
-    }
 }
