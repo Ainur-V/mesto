@@ -45,7 +45,7 @@ initialCards.forEach(function (item) {
 });
 
 //Функция открытия попапа
-export function openPopup (popup) {
+function openPopup (popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('click', toggleCloseByOverley);
     document.addEventListener('keydown', toggleCloseByEscape);
