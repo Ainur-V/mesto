@@ -47,9 +47,7 @@ formElementCloseButton.addEventListener('click', () => {
 
 //Отправка данных попапа "Новое место"   !!! 8 project !!!
 function popupAddSubmitHandler (values) {
-  console.log(values);
-  const card = new Card (values.name, values.link, '#template-element', handleCardClick);
-  cardsList.addItem(card.getCard());
+  cardsList.addItem(createCard(values));
   popupAddElement.close();
   formElementValidator.disableFormButton();
 }
@@ -76,10 +74,15 @@ function handleCardClick(name, link) {
 const cardsList = new Section ({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card (item.name, item.link, '#template-element', handleCardClick);
-    cardsList.addItem(card.getCard());
+    cardsList.addItem(createCard(item));
   }
 }, '.elements');
 
 //добавление элементов на страницу
 cardsList.renderItem();
+
+//функция создания карточки
+function createCard(item) {
+  const card = new Card(item.name, item.link, '#template-element', handleCardClick);
+  return card.getCard();
+} 
