@@ -8,6 +8,7 @@ import UserInfo from '../components/UserInfo.js';
 import {editButton, addButton, formProfile, formProfileInputName, formProfileInputInfo, formProfileCloseButton, formElement, formElementCloseButton, popupElementClose, initialCards, config} from '../utils/utils.js';
 
 const popupImage = new PopupWithImage('#popup-image-full');
+popupImage.setEventListener();
 const popupProfile = new PopupWithForm('#popup-edit-profile', popupProfileSubmitHandler);
 popupProfile.setEventListener();
 const popupAddElement = new PopupWithForm('#popup-add-element', popupAddSubmitHandler);
@@ -23,11 +24,6 @@ editButton.addEventListener('click', () => {
   formProfileValidator.resetValidation();
 });
 
-//Кнопка закрытия попапа "Редактировать профиль"   !!! 8 project !!!
-formProfileCloseButton.addEventListener('click', () => {
-  popupProfile.close();
-});
-
 //Отправка данных попапа "Редактировать профиль"  !!! 8 project !!!
 function popupProfileSubmitHandler (values) {
   profileInfo.setUserInfo(values.name, values.info);
@@ -40,22 +36,12 @@ addButton.addEventListener('click', () => {
   formElementValidator.resetValidation();
 });
 
-//Кнопка закрытия попапа "Новое место"  !!! 8 project !!!
-formElementCloseButton.addEventListener('click', () => {
-  popupAddElement.close();
-});
-
 //Отправка данных попапа "Новое место"   !!! 8 project !!!
 function popupAddSubmitHandler (values) {
   cardsList.addItem(createCard(values));
   popupAddElement.close();
   formElementValidator.disableFormButton();
 }
-
-//Кнопка закрытия попапа "Full image"  !!! 8 project !!!
-popupElementClose.addEventListener('click', () => {
-  popupImage.close();
-});
 
 //Создание экземпляра класса для валидации инпутов у попапа "Редактировать профиль" и запуск валидации
 const formProfileValidator = new FormValidator(config, formProfile);

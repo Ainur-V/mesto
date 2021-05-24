@@ -18,6 +18,7 @@ export default class FormValidator {
         this._inputList.forEach((input) => {
             input.addEventListener('input', () => {
                 this._checkInputValid(input);
+                this._setButtonState(this._hasInvalidInput());
             })
         })
     }
@@ -29,13 +30,6 @@ export default class FormValidator {
         } else { 
             this._hideError(input);
         }
-        const inputValid = this._inputList.every((item) => {
-            return item.validity.valid;
-        });
-        const inputfull = this._inputList.every(function (item) {
-            return item.value.length > 0;
-            });
-        this._setButtonState(inputValid, inputfull);
     }
 
     //Метод показа сообщения об ошибке
@@ -52,10 +46,17 @@ export default class FormValidator {
         inputError.classList.remove(this._errorClass);
         inputError.textContent = "";
     }
+    
+    _hasInvalidInput() {
+        return this._inputList.some((item) => {
+            return !item.validity.valid && item.value.length >= 0;
+        })
+    }
 
     //Метод переключения состояния кнопки отправки данных в зависимости от корректности инпутов
-    _setButtonState (inputValid, inputfull) {
-        if (!inputValid || !inputfull) {
+    _setButtonState (hasInvalidInput) {
+        console.log(hasInvalidInput);
+        if (hasInvalidInput) {
             this.disableFormButton();
         } else this._enableFormButton();
     }
@@ -77,7 +78,7 @@ export default class FormValidator {
             inputElement.textContent = "";
         });
     
-        this.disableFormButton(); 
+        this._setButtonState(this._hasInvalidInput());
     }
 
 }
