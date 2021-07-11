@@ -11,9 +11,9 @@ const formConfirmDelete = document.querySelector('#popup-confirm-delete');
 const avatar = document.querySelector('.profile__avatar');
 const formAvatar = document.querySelector('#change-avatar');
 
-const popupAddCard = document.querySelector('.popup__type_add-element');
-const popupEditInfo = document.querySelector('.popup__type_edit-profile');
-const popupAvatar = document.querySelector('.popup__type_avatar');
+const popupAddCard = document.querySelector('.popup-add-element');
+const popupEditInfo = document.querySelector('.popup-edit-profile');
+const popupAvatar = document.querySelector('.popup-avatar');
 
 const initialCards = [
     {

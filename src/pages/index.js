@@ -164,11 +164,11 @@ avatar.addEventListener('click', () => {
 //функция показа загрузки
 function loading(process, popup) {
   if (process) {
-    if (popup.classList.contains('popup__type_add-element')) {
+    if (popup.classList.contains('popup-add-element')) {
       popup.querySelector('#add-element-submit').textContent = 'Создание...'
-    } else if (popup.classList.contains('popup__type_edit-profile')) {
+    } else if (popup.classList.contains('popup-edit-profile')) {
       popup.querySelector('#edit-profile-submit').textContent = 'Сохранение...'
-    } else if (popup.classList.contains('popup__type_avatar')) {
+    } else if (popup.classList.contains('popup-avatar')) {
       popup.querySelector('#popup-avatar-submit').textContent = 'Сохранение...'
     }
   } else {
