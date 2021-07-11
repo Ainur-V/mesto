@@ -13,7 +13,7 @@
 
         <main class="content">
 
-        <div id="popup-edit-profile" class="popup">
+        <div id="popup-edit-profile" class="popup popup__type_edit-profile">
             <div class="popup__container-place">
                 <form id="edit-profile" name="popup-form" class="popup__container" novalidate>
                     <h2 class="popup__title">Редактировать профиль</h2>
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div id="popup-add-element" class="popup">
+        <div id="popup-add-element" class="popup popup__type_add-element">
             <div class="popup__container-place">
                 <form id="add-element" name="popup-form" class="popup__container" novalidate>
                     <h2 class="popup__title">Новое место</h2>
@@ -49,15 +49,37 @@
             </figure>
         </div>
 
+        <div id="popup-confirm-delete" class="popup">
+            <div class="popup__container-place">
+                <form class="popup__container" novalidate>
+                    <h2 class="popup__title">Вы уверены?</h2>
+                    <button type="submit" class="popup__submit">Да</button>
+                    <button type="button" class="popup__close-button"></button>
+                </form>
+            </div>
+        </div>
+
+        <div id="popup-avatar-change" class="popup popup__type_avatar">
+            <div class="popup__container-place">
+                <form id="change-avatar" class="popup__container">
+                    <h2 class="popup__title">Обновить аватар</h2>
+                    <input required id="avatar-link" name="link" type="url" class="popup__input" value="" placeholder="Cсылка на картинку" autocomplete="off">
+                    <span id="avatar-link-error" class="popup__error"></span>
+                    <button id="popup-avatar-submit" type="submit" class="popup__submit">Сохранить</button>
+                    <button type="button" class="popup__close-button"></button>
+                </form>
+            </div>
+        </div>
+
         <section class="profile">
             <div class="profile__main-info">
-            <div class="profile__avatar"></div>
+            <img class="profile__avatar" src=" " alt="Аватар"></img>
             <div class="profile__info">
                 <div class="profile__button-place">
-                <h1 class="profile__user-name">Жак-Ив Кусто</h1>
+                <h1 class="profile__user-name"></h1>
                 <button type="button" class="profile__edit-button"></button>
                 </div>
-                <p class="profile__user-info">Исследователь океана</p>
+                <p class="profile__user-info"></p>
             </div>
             </div>
             <button type="button" class="profile__add-button"></button>
@@ -77,8 +99,11 @@
                 <img class="element__image" alt="картинка карточки">
                 <div class="element__group">
                 <h2 class="element__name"></h2>
+                <div class="element__like-group">
                 <button type="button" class="element__like"></button>
-                <button type="button" class="element__delete"></button>
+                <p class="element__like-counter"></p>
+                </div>
+                <button id="element-delete" type="button" class="element__delete element__delete_hidden"></button>
                 </div>
             </div>
         </template>

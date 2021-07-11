@@ -7,6 +7,13 @@ const formProfileCloseButton = formProfile.querySelector('#edit-profile-close');
 const formElement = document.querySelector('#add-element');
 const formElementCloseButton = formElement.querySelector('#add-element-close');
 const popupElementClose = document.querySelector('.popup-element__close');
+const formConfirmDelete = document.querySelector('#popup-confirm-delete');
+const avatar = document.querySelector('.profile__avatar');
+const formAvatar = document.querySelector('#change-avatar');
+
+const popupAddCard = document.querySelector('.popup__type_add-element');
+const popupEditInfo = document.querySelector('.popup__type_edit-profile');
+const popupAvatar = document.querySelector('.popup__type_avatar');
 
 const initialCards = [
     {
@@ -45,4 +52,4 @@ const initialCards = [
   };
 
 
-  export {editButton, addButton, formProfile, formProfileInputName, formProfileInputInfo, formProfileCloseButton, formElement, formElementCloseButton, popupElementClose, initialCards, config};
+  export {editButton, addButton, formProfile, formProfileInputName, formProfileInputInfo, formProfileCloseButton, formElement, formElementCloseButton, popupElementClose, initialCards, config, formConfirmDelete, avatar, formAvatar, popupAddCard, popupEditInfo, popupAvatar};
