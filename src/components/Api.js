@@ -10,11 +10,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     getCards() {
@@ -23,11 +19,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     changeUserInfo(name, about) {
@@ -42,11 +34,7 @@ export default class Api {
                 about: about
             })
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     addNewCard(name, link) {
@@ -61,11 +49,7 @@ export default class Api {
                 link: link
             })
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     deleteCard (id) {
@@ -75,11 +59,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     likeCard (id) {
@@ -89,11 +69,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     unlikeCard(id) {
@@ -103,11 +79,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
     }
 
     changeAvatar(link) {
@@ -121,10 +93,13 @@ export default class Api {
                 avatar: link
             })
         })
-        .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-          });
+        .then(this._checkResponse);
+    }
+
+    _checkResponse(res) {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
     }
 }

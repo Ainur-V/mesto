@@ -31,18 +31,27 @@ const cardsList = new Section({
   }, '.elements');
 
 
+//первоначальная загрузка информации с сервера  СТАРАЯ ВЕРСИЯ
+// api.getUserInfo()
+//   .then((result) => {
+//     console.log(result)
+//     profileInfo.setUserInfo(result.name, result.about, result._id);
+//     profileInfo.setAvatar(result.avatar)
+//   })
+// api.getCards()
+//   .then((result)=> {
+//     console.log(result)
+//       cardsList.renderItem(result.reverse()); //reverse чтобы в корректном порядке выставить массив
+//   })
+
 //первоначальная загрузка информации с сервера
-api.getUserInfo()
-  .then((result) => {
-    console.log(result)
-    profileInfo.setUserInfo(result.name, result.about, result._id);
-    profileInfo.setAvatar(result.avatar)
-  })
-api.getCards()
+Promise.all([api.getUserInfo(), api.getCards()])
   .then((result)=> {
-    console.log(result)
-      cardsList.renderItem(result.reverse()); //reverse чтобы в корректном порядке выставить массив
+    profileInfo.setUserInfo(result[0].name, result[0].about, result[0]._id);
+    profileInfo.setAvatar(result[0].avatar);
+    cardsList.renderItem(result[1].reverse()); 
   })
+  .catch(e => console.log(`Ошибка при первоначальной загрузке информации с сервера: ${e}`))
 
 
 //Реакция на клик по кнопке "Редактировать профиль"  !!! 8 project !!!
@@ -56,16 +65,17 @@ editButton.addEventListener('click', () => {
 
 //Отправка данных попапа "Редактировать профиль"  !!! 8 project !!!
 function popupProfileSubmitHandler (values) {
-  loading(true, popupEditInfo);
+  loading(true, popupEditInfo, 'Сохранение...');
   api.changeUserInfo(values.name, values.info)
     .then((data) => {
       profileInfo.setUserInfo(data.name, data.about);
+      popupProfile.close();
     })
     .catch(e => console.log(`Ошибка при редактировании профиля: ${e}`))
     .finally(() => {
-      loading(false, popupEditInfo)
+      loading(false, popupEditInfo, 'Сохранить');
     })
-  popupProfile.close();
+  
 }
 
 //Реакция на клик по кнопке "Новое место"  !!! 8 project !!!
@@ -76,17 +86,17 @@ addButton.addEventListener('click', () => {
 
 //Отправка данных попапа "Новое место"   !!! 8 project !!!
 function popupAddSubmitHandler (values) {
-  loading(true, popupAddCard);
+  loading(true, popupAddCard, 'Создание...');
   api.addNewCard(values.name, values.link)
     .then((data)=> {
       cardsList.addItem(createCard(data));
+      popupAddElement.close();
     })
     .catch(e => console.log(`Ошибка при создании карточки: ${e}`))
     .finally(() => {
-      loading(false, popupAddCard)
+      loading(false, popupAddCard, 'Создать');
     })
-  popupAddElement.close();
-  formElementValidator.disableFormButton();
+
 }
 
 //Создание экземпляра класса для валидации инпутов у попапа "Редактировать профиль" и запуск валидации
@@ -118,7 +128,7 @@ function deleteCardHandler (card) {
   function deleteCard () {
     api.deleteCard(card.getId())
     .then((data)=> {
-      card._deleteCard();
+      card.deleteCard();
       popupConfirmDelete.close();
     })
     .catch(e => console.log(`Ошибка при удалении карточки: ${e}`))
@@ -143,16 +153,17 @@ function likeCardHandler (card) {
 
 //функция отправки данных попапа смены аватарки
 function popupAvatarSubmit(data) {
-  loading(true, popupAvatar);
+  loading(true, popupAvatar, 'Сохранение...');
   api.changeAvatar(data.link)
     .then((data) => {
-    profileInfo.setAvatar(data.avatar)
+    profileInfo.setAvatar(data.avatar);
+    popupAvatarChange.close();
     })
     .catch(e => console.log(`Ошибка при смене аватарки: ${e}`))
     .finally(() => {
-      loading(false, popupAvatar)
+      loading(false, popupAvatar, 'Сохранить');
     })
-  popupAvatarChange.close();
+
 }
 
 //слушатель клика по аватарке
@@ -162,18 +173,10 @@ avatar.addEventListener('click', () => {
 })
 
 //функция показа загрузки
-function loading(process, popup) {
+function loading(process, popup, buttonText) {
   if (process) {
-    if (popup.classList.contains('popup-add-element')) {
-      popup.querySelector('#add-element-submit').textContent = 'Создание...'
-    } else if (popup.classList.contains('popup-edit-profile')) {
-      popup.querySelector('#edit-profile-submit').textContent = 'Сохранение...'
-    } else if (popup.classList.contains('popup-avatar')) {
-      popup.querySelector('#popup-avatar-submit').textContent = 'Сохранение...'
-    }
+    popup.querySelector('.popup__submit').textContent = buttonText;
   } else {
-    document.querySelector('#add-element-submit').textContent = 'Создать';
-    document.querySelector('#edit-profile-submit').textContent = 'Сохранить';
-    document.querySelector('#popup-avatar-submit').textContent = 'Сохранить';
+    popup.querySelector('.popup__submit').textContent = buttonText;
   }
 }
