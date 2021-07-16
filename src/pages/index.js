@@ -46,10 +46,10 @@ const cardsList = new Section({
 
 //первоначальная загрузка информации с сервера
 Promise.all([api.getUserInfo(), api.getCards()])
-  .then((result)=> {
-    profileInfo.setUserInfo(result[0].name, result[0].about, result[0]._id);
-    profileInfo.setAvatar(result[0].avatar);
-    cardsList.renderItem(result[1].reverse()); 
+  .then(([userData, initialCards])=> {
+    profileInfo.setUserInfo(userData.name, userData.about, userData._id);
+    profileInfo.setAvatar(userData.avatar);
+    cardsList.renderItem(initialCards.reverse()); 
   })
   .catch(e => console.log(`Ошибка при первоначальной загрузке информации с сервера: ${e}`))
 
@@ -143,11 +143,13 @@ function likeCardHandler (card) {
   .then((data)=> {
       card.setLikes(data);
   })
+  .catch(e => console.log(`Ошибка при удалении карточки: ${e}`))
 } else {
   api.likeCard(card.getId())
   .then((data)=> {
       card.setLikes(data);
   })
+  .catch(e => console.log(`Ошибка при удалении карточки: ${e}`))
 }
 }
 
